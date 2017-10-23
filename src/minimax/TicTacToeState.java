@@ -50,7 +50,7 @@ public class TicTacToeState extends TicTacToeGame {
 	public boolean isWinState(BoardPosition lastMove, Symbol winSymbol) {
 		if (lastMove == null) {
 			// check all possible wins
-			for (int i = 0; i < super.boardDimension; i++) {
+			for (int i = 0; i < this.boardState.length; i++) {
 				BoardPosition pos = new BoardPosition(i, i);
 				if (this.checkForRowColWins(pos, winSymbol)) {
 					return true;
@@ -65,7 +65,7 @@ public class TicTacToeState extends TicTacToeGame {
 				return true;
 			} else {
 				// if diagonal win possible
-				if (lastMove.row == lastMove.col || lastMove.row + lastMove.col == super.boardDimension - 1) {
+				if (lastMove.row == lastMove.col || lastMove.row + lastMove.col == this.boardState.length - 1) {
 					return this.checkForDiagonalWins(winSymbol);
 				} else {
 					return false;
@@ -95,11 +95,12 @@ public class TicTacToeState extends TicTacToeGame {
 	public boolean checkForDiagonalWins(Symbol sym) {
 		boolean topDiagWin = true;			// diagonal from top left to bottom right
 		boolean bottomDiagWin = true;		// diagonal from bottom left to top right
-		for (int i = 0; i < super.boardDimension; i++) {
+
+		for (int i = 0; i < this.boardState.length; i++) {
 			if (this.boardState[i][i] != sym) {
 				topDiagWin = false;
 			}
-			if (this.boardState[(super.boardDimension - 1) - i][i] != sym) {
+			if (this.boardState[(this.boardState.length - 1) - i][i] != sym) {
 				bottomDiagWin = false;
 			}
 		}
