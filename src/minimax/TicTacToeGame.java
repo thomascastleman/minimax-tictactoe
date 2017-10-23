@@ -8,7 +8,7 @@ public class TicTacToeGame extends Main {
 	
 	public int boardDimension;		// dimension of board
 	
-	public TicTacToeState currentBoardState;
+	public TicTacToeState currentBoardState;	// current state of the game board
 	
 	// empty constructor
 	public TicTacToeGame() {
@@ -49,7 +49,7 @@ public class TicTacToeGame extends Main {
 			BoardPosition p1move = player1.getMove(this.currentBoardState);
 			this.updateBoard(p1move, player1.symbol);
 			
-			if (currentBoardState.isWinState(p1move)) {
+			if (currentBoardState.isWinState(p1move, player1.symbol)) {
 				System.out.println("PLAYER 1 WINS");
 				break;
 			}
@@ -57,7 +57,7 @@ public class TicTacToeGame extends Main {
 			BoardPosition p2move = player2.getMove(this.currentBoardState);
 			this.updateBoard(p2move, player2.symbol);
 			
-			if (currentBoardState.isWinState(p2move)) {
+			if (currentBoardState.isWinState(p2move, player2.symbol)) {
 				System.out.println("PLAYER 2 WINS");
 				break;
 			}

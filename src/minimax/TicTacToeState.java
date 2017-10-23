@@ -1,5 +1,7 @@
 package minimax;
+
 import minimax.Main.Symbol;
+import java.util.*;
 
 public class TicTacToeState extends TicTacToeGame {
 	
@@ -45,16 +47,88 @@ public class TicTacToeState extends TicTacToeGame {
 	}
 	
 	// check if state is a win state
-	public boolean isWinState(BoardPosition lastMove) {
+	public boolean isWinState(BoardPosition lastMove, Symbol winSymbol) {
 		if (lastMove == null) {
 			// check all possible wins
+			for (int i = 0; i < super.boardDimension; i++) {
+				BoardPosition pos = new BoardPosition(i, i);
+				if (this.checkForRowColWins(pos, winSymbol)) {
+					return true;
+				}
+			}
+			
+			return this.checkForDiagonalWins(winSymbol);
+
 		} else {
 			// only check wins surrounding lastmove
+			if (this.checkForRowColWins(lastMove, winSymbol)) {
+				return true;
+			} else {
+				// if diagonal win possible
+				if (lastMove.row == lastMove.col || lastMove.row + lastMove.col == super.boardDimension - 1) {
+					return this.checkForDiagonalWins(winSymbol);
+				} else {
+					return false;
+				}
+			}
 		}
 	}
 	
-	public ArrayList<TicTacToeState> getSuccessorStates() {
+	// check this state for row / col wins of a given symbol
+	public boolean checkForRowColWins(BoardPosition position, Symbol sym) {
+		// check row / col win possibilities
+		boolean rowWinFound = true;	// assume win
+		boolean colWinFound = true;
+		for (int i = 0; i < this.boardState.length; i++) {
+			if (this.boardState[position.row][i] != sym) {
+				rowWinFound = false;
+			}
+			if (this.boardState[i][position.col] != sym) {
+				colWinFound = false;
+			}
+		}
+					
+		return rowWinFound || colWinFound;
+	}
+	
+	// check this state for diagonal wins of a given symbol
+	public boolean checkForDiagonalWins(Symbol sym) {
+		boolean topDiagWin = true;			// diagonal from top left to bottom right
+		boolean bottomDiagWin = true;		// diagonal from bottom left to top right
+		for (int i = 0; i < super.boardDimension; i++) {
+			if (this.boardState[i][i] != sym) {
+				topDiagWin = false;
+			}
+			if (this.boardState[(super.boardDimension - 1) - i][i] != sym) {
+				bottomDiagWin = false;
+			}
+		}
 		
+		return topDiagWin || bottomDiagWin;
+	}
+	
+	public ArrayList<TicTacToeState> getSuccessorStates(Symbol currentMove) {
+		ArrayList<TicTacToeState> successors = new ArrayList<TicTacToeState>();
+		
+		for (int i = 0; i < this.boardState.length; i++) {
+			for (int j = 0; j < this.boardState.length; j++) {
+				// if available position
+				if (this.boardState[i][j] == null) {
+					// add new state to successors
+					BoardPosition pos = new BoardPosition(i, j);
+					successors.add(new TicTacToeState(pos, currentMove, this));
+				}
+			}
+		}
+		
+		return successors;
 	}
 	
 }
+
+
+
+
+
+
+
