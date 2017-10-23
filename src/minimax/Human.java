@@ -24,7 +24,7 @@ public class Human extends Agent {
 				int col = Integer.valueOf(split[1]);
 				BoardPosition p = new BoardPosition(row, col);
 				// return only if legal move
-				if (p.isLegalOnSizeOf(dimension)) {
+				if (p.isLegalOnSizeOf(dimension) && state.boardState[p.row][p.col] == null) {
 					return p;
 				}
 			}

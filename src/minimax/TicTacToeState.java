@@ -18,7 +18,7 @@ public class TicTacToeState extends TicTacToeGame {
 		this.boardState = copyBoard(prevState.boardState);
 		
 		// if move legal
-		if (positionOfChange.isLegalOnSizeOf(super.boardDimension) && this.boardState[positionOfChange.row][positionOfChange.col] == null) {
+		if (positionOfChange.isLegalOnSizeOf(this.boardState.length) && this.boardState[positionOfChange.row][positionOfChange.col] == null) {
 			this.boardState[positionOfChange.row][positionOfChange.col] = changeTo;
 		} else {
 			System.out.println("Illegal Move (TicTacToeState())");
@@ -27,6 +27,7 @@ public class TicTacToeState extends TicTacToeGame {
 	
 	// log state to console
 	public void logState() {
+		System.out.println("\n");
 		for (int i = 0; i < this.boardState.length; i++) {
 			for (int j = 0; j < this.boardState.length; j++) {
 				System.out.print(this.boardState[i][j] + " ");
