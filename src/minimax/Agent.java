@@ -16,12 +16,12 @@ public class Agent extends TicTacToeGame {
 		
 	}
 	
-	public Agent(Symbol symbol_, AgentType type_) {
+	public Agent(Symbol symbol_, AgentType type_, int aiDepth) {
 		this.symbol = symbol_;
 		this.type = type_;
 		
 		if (this.type == AgentType.AI) {
-			this.ai = new AI();
+			this.ai = new AI(aiDepth);
 		} else if (this.type == AgentType.HUMAN) {
 			this.human = new Human();
 		}
@@ -29,12 +29,13 @@ public class Agent extends TicTacToeGame {
 	}
 	
 	// get move from this agent
-	public BoardPosition getMove(TicTacToeState state) {
+	public BoardPosition getMove(TicTacToeState state, int dimension) {
 		if (this.type == AgentType.AI) {
-			return this.ai.getMove(state);
+			return this.ai.getMove(state, dimension);
 		} else if (this.type == AgentType.HUMAN) {
-			return this.human.getMove(state);
+			return this.human.getMove(state, dimension);
 		}
 		
 	}
+	
 }
