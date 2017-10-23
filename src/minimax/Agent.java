@@ -21,11 +21,10 @@ public class Agent extends TicTacToeGame {
 		this.type = type_;
 		
 		if (this.type == AgentType.AI) {
-			this.ai = new AI(aiDepth);
+			this.ai = new AI(aiDepth, this.symbol);
 		} else if (this.type == AgentType.HUMAN) {
 			this.human = new Human();
 		}
-		
 	}
 	
 	// get move from this agent
@@ -34,6 +33,8 @@ public class Agent extends TicTacToeGame {
 			return this.ai.getMove(state, dimension);
 		} else if (this.type == AgentType.HUMAN) {
 			return this.human.getMove(state, dimension);
+		} else {
+			return null;
 		}
 		
 	}

@@ -6,7 +6,7 @@ import java.util.*;
 public class TicTacToeState extends TicTacToeGame {
 	
 	public Symbol[][] boardState;				// array of symbols to represent state
-	public int cost; // for minimax				// cost of state
+	public float cost; // for minimax			// cost of state (float for support with infinity)
 	public BoardPosition moveFromPrevious;		// board position of move that led to this state
 	
 	public TicTacToeState() {
