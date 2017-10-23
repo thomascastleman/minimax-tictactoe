@@ -8,4 +8,9 @@ public class BoardPosition {
 		this.row = row_;
 		this.col = col_;
 	}
+	
+	// check if board position is legal on an n x n board
+	public boolean isLegalOnSizeOf(int n) {
+		return this.row < n && this.col < n;
+	}
 }

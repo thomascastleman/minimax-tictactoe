@@ -23,11 +23,45 @@ public class TicTacToeGame extends Main {
 	
 	// generate the starting empty board configuration
 	public void initializeBoardState() {
+		this.currentBoardState = new TicTacToeState();
+		this.currentBoardState.boardState = new Symbol[this.boardDimension][this.boardDimension];
 		
+		for (int i = 0; i < this.boardDimension; i++) {
+			for (int j = 0; j < this.boardDimension; j++) {
+				this.currentBoardState.boardState[i][j] = null;
+			}
+		}
+	}
+	
+	// if legal, update board to reflect a given move
+	public void updateBoard(BoardPosition pos, Symbol sym) {
+		if (pos.isLegalOnSizeOf(this.boardDimension) && this.currentBoardState.boardState[pos.row][pos.col] == null) {
+			this.currentBoardState.boardState[pos.row][pos.col] = sym;
+		} else {
+			System.out.println("Illegal Move (TicTacToeGame.updateBoard())");
+		}
 	}
 	
 	// begin game of tic tac toe
 	public void startGame() {
 		
+		while (true) {
+			BoardPosition p1move = player1.getMove(this.currentBoardState);
+			this.updateBoard(p1move, player1.symbol);
+			
+			if (currentBoardState.isWinState(p1move)) {
+				System.out.println("PLAYER 1 WINS");
+				break;
+			}
+			
+			BoardPosition p2move = player2.getMove(this.currentBoardState);
+			this.updateBoard(p2move, player2.symbol);
+			
+			if (currentBoardState.isWinState(p2move)) {
+				System.out.println("PLAYER 2 WINS");
+				break;
+			}
+			
+		}
 	}
 }
