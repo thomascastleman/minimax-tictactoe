@@ -1,6 +1,5 @@
-package minimax_tictactoe;
-
-import minimax_tictactoe.Main.Symbol;
+package minimax;
+import minimax.Main.Symbol;
 
 public class TicTacToeState extends TicTacToeGame {
 
