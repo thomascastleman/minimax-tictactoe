@@ -49,6 +49,7 @@ public class TicTacToeGame extends Main {
 			BoardPosition p1move = player1.getMove(this.currentBoardState, this.boardDimension);
 			this.updateBoard(p1move, player1.symbol);
 			
+			System.out.println("BOARDSTATE: ");
 			this.currentBoardState.logState();
 			
 			if (currentBoardState.isWinState(p1move, player1.symbol)) {
@@ -59,6 +60,7 @@ public class TicTacToeGame extends Main {
 			BoardPosition p2move = player2.getMove(this.currentBoardState, this.boardDimension);
 			this.updateBoard(p2move, player2.symbol);
 			
+			System.out.println("BOARDSTATE: ");
 			this.currentBoardState.logState();
 			
 			if (currentBoardState.isWinState(p2move, player2.symbol)) {

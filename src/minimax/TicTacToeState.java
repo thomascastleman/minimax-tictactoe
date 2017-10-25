@@ -28,11 +28,17 @@ public class TicTacToeState extends TicTacToeGame {
 	// log state to console
 	public void logState() {
 		System.out.println("\n");
-		for (int i = 0; i < this.boardState.length; i++) {
+		for (int i = -1; i < this.boardState.length; i++) {
 			for (int j = 0; j < this.boardState.length; j++) {
-				System.out.print(this.boardState[i][j] + " ");
+				if (i == -1) {
+					System.out.print(j + " ");
+				} else {
+					Symbol s = this.boardState[i][j];
+					System.out.print((s == null ? " " : s) + " ");
+				}
 			}
-			System.out.println("");
+
+			System.out.println(i > -1 ? i : "");
 		}
 	}
 	

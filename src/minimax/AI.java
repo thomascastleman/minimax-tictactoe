@@ -63,7 +63,7 @@ public class AI extends Agent {
 	
 	public float heuristic(TicTacToeState state) {
 		// their min moves from win - our min moves from win
-		return (float) this.getMinMovesFromWin(state, this.symbol == Symbol.X ? Symbol.O : Symbol.X) - this.getMinMovesFromWin(state, this.symbol);
+		return (float) this.getMinMovesFromWin(state, this.symbol);
 	}
 	
 	public int getMinMovesFromWin(TicTacToeState state, Symbol symbol) {
