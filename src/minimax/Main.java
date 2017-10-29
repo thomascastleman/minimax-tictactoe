@@ -15,8 +15,5 @@ public class Main {
 		
 		game.initializeBoardState();
 		game.startGame();
-		
-
 	}
-
 }

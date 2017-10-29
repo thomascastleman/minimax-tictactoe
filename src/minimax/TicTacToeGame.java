@@ -59,6 +59,9 @@ public class TicTacToeGame extends Main {
 			if (currentBoardState.isWinState(p1move, player1.symbol)) {
 				System.out.println("PLAYER 1 WINS");
 				break;
+			} else if (currentBoardState.checkIfAllFilled()) {
+				System.out.println("TIE");
+				break;
 			}
 			
 			BoardPosition p2move = player2.getMove(this.currentBoardState, this.boardDimension);
@@ -69,6 +72,9 @@ public class TicTacToeGame extends Main {
 			
 			if (currentBoardState.isWinState(p2move, player2.symbol)) {
 				System.out.println("PLAYER 2 WINS");
+				break;
+			} else if (currentBoardState.checkIfAllFilled()) {
+				System.out.println("TIE");
 				break;
 			}
 			

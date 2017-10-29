@@ -48,12 +48,23 @@ public class AI extends Agent {
 			// initialize beststate with either really low cost if we're maximizing and really high cost if we're minimizing
 			TicTacToeState bestState = new TicTacToeState();
 			
+			
+			
+			
+			// DEBUGE
+			ArrayList<TicTacToeState> costs = new ArrayList<TicTacToeState>();
+			
 			// for each successor
 			for (int i = 0; i < children.size(); i++) {
 				
+				children.get(i).depth = depth;
+				
 				// recursively get minimax value of this child
 				TicTacToeState childWithCost = this.minimax(children.get(i), !isMaximizing, depth + 1, maxDepth);
-				childWithCost.depth = depth;
+				// restore integrity of move, which changed from minimax call
+				childWithCost.moveFromPrevious = children.get(i).moveFromPrevious;
+				
+				costs.add(childWithCost);
 				
 				if (i == 0) {
 					bestState = childWithCost;
@@ -65,7 +76,7 @@ public class AI extends Agent {
 						bestState = childWithCost;
 					
 					// if both wins, choose one with shallower depth
-					} else if (childWithCost.cost == Float.POSITIVE_INFINITY && childWithCost.depth < bestState.depth) {
+					} else if (childWithCost.cost == bestState.cost && childWithCost.depth < bestState.depth) {
 						bestState = childWithCost;
 					}
 				} else {
@@ -74,10 +85,17 @@ public class AI extends Agent {
 						bestState = childWithCost;
 						
 					// if both losses, choose one with deeper depth
-					} else if (childWithCost.cost == Float.NEGATIVE_INFINITY && childWithCost.depth > bestState.depth) {
+					} else if (childWithCost.cost == bestState.cost && childWithCost.depth < bestState.depth) {
 						bestState = childWithCost;
 					}
 				}	
+			}
+			
+			if (depth == 1) {
+				for (int i = 0; i < costs.size(); i++) {
+					System.out.println("Move: " + children.get(i).moveFromPrevious.row + ", " + children.get(i).moveFromPrevious.col + " Cost: " + costs.get(i).cost + " Depth: " + costs.get(i).depth);
+				}
+				System.out.println("CHOICE: " + bestState.moveFromPrevious.row + ", " + bestState.moveFromPrevious.col);
 			}
 			
 			return bestState;
