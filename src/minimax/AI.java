@@ -51,6 +51,8 @@ public class AI extends Agent {
 //				System.out.println("child state: ");
 //				childWithCost.logState();
 				
+				System.out.println(bestState.cost);
+				
 				if (isMaximizing) {
 					// if better cost found, replace
 					if (childWithCost.cost > bestState.cost) {
