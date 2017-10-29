@@ -35,10 +35,14 @@ public class TicTacToeGame extends Main {
 	
 	// if legal, update board to reflect a given move
 	public void updateBoard(BoardPosition pos, Symbol sym) {
-		if (pos.isLegalOnSizeOf(this.boardDimension) && this.currentBoardState.boardState[pos.row][pos.col] == null) {
-			this.currentBoardState.boardState[pos.row][pos.col] = sym;
+		if (pos != null && this.currentBoardState.boardState != null) {
+			if (pos.isLegalOnSizeOf(this.boardDimension) && this.currentBoardState.boardState[pos.row][pos.col] == null) {
+				this.currentBoardState.boardState[pos.row][pos.col] = sym;
+			} else {
+				System.out.println("Illegal Move (TicTacToeGame.updateBoard())");
+			}
 		} else {
-			System.out.println("Illegal Move (TicTacToeGame.updateBoard())");
+			System.out.println("\n\nNULL position or boardstate (TicTacToeGame.updateBoard())");
 		}
 	}
 	

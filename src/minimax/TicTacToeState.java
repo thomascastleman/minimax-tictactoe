@@ -29,6 +29,7 @@ public class TicTacToeState extends TicTacToeGame {
 	// log state to console
 	public void logState() {
 		System.out.println("\nDepth: " + this.depth);
+		System.out.println(this.boardState);
 		for (int i = -1; i < this.boardState.length; i++) {
 			for (int j = 0; j < this.boardState.length; j++) {
 				if (i == -1) {
@@ -52,6 +53,18 @@ public class TicTacToeState extends TicTacToeGame {
 		}
 		
 		return copy;
+	}
+	
+	// check if all spaces have been played in a board state
+	public boolean checkIfAllFilled() {
+		for (int i = 0; i < this.boardState.length; i++) {
+			for (int j = 0; j < this.boardState.length; j++) {
+				if (this.boardState[i][j] == null) {
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	// check if state is a win state

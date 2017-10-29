@@ -16,11 +16,11 @@ public class AI extends Agent {
 	public BoardPosition getMove(TicTacToeState state, int dimension) {
 		TicTacToeState bestState = this.minimax(state, true, 1, this.depth);
 		System.out.println("Selecting state with cost " + bestState.cost + " from depth " + bestState.depth);
-		bestState.logState();
 		return bestState.moveFromPrevious;
 	}
 	
 	public TicTacToeState minimax(TicTacToeState currentState, boolean isMaximizing, int depth, int maxDepth) {
+	
 		// if win, cost == positive infinity
 		if (currentState.isWinState(currentState.moveFromPrevious, this.symbol)) {
 			currentState.cost = Float.POSITIVE_INFINITY;
@@ -28,6 +28,10 @@ public class AI extends Agent {
 		// if loss, cost == negative infinity
 		} else if (currentState.isWinState(currentState.moveFromPrevious, this.symbol == Symbol.X ? Symbol.O : Symbol.X)) {
 			currentState.cost = Float.NEGATIVE_INFINITY;
+			return currentState;
+		// if tie, cost == 0
+		} else if (currentState.checkIfAllFilled()) { 
+			currentState.cost = 0;
 			return currentState;
 		}
 		
@@ -40,18 +44,20 @@ public class AI extends Agent {
 			// otherwise, evaluate recursively
 			ArrayList<TicTacToeState> children = currentState.getSuccessorStates(isMaximizing ? this.symbol : (this.symbol == Symbol.X ? Symbol.O : Symbol.X));
 			
-			TicTacToeState bestState = children.get(0);
-			for (int i = 1; i < children.size(); i++) {
-				children.get(i).depth = depth;		// init child depth
+			
+			// initialize beststate with either really low cost if we're maximizing and really high cost if we're minimizing
+			TicTacToeState bestState = new TicTacToeState();
+			
+			// for each successor
+			for (int i = 0; i < children.size(); i++) {
 				
 				// recursively get minimax value of this child
 				TicTacToeState childWithCost = this.minimax(children.get(i), !isMaximizing, depth + 1, maxDepth);
+				childWithCost.depth = depth;
 				
-//				System.out.println("Child cost == " + childWithCost.cost);
-//				System.out.println("child state: ");
-//				childWithCost.logState();
-				
-				System.out.println(bestState.cost);
+				if (i == 0) {
+					bestState = childWithCost;
+				}
 				
 				if (isMaximizing) {
 					// if better cost found, replace
@@ -119,7 +125,7 @@ public class AI extends Agent {
 		if (moves < min) { 
 			min = moves;
 		}
-		
+
 		return min;
 	}
 	
