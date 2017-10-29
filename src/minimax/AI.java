@@ -15,7 +15,7 @@ public class AI extends Agent {
 	
 	public BoardPosition getMove(TicTacToeState state, int dimension) {
 		TicTacToeState bestState = this.minimax(state, true, 1, this.depth);
-		System.out.println("Selecting state with cost " + bestState.cost + " from depth " + bestState.depth);
+		System.out.println("Selecting move " + bestState.moveFromPrevious.row + ", " + bestState.moveFromPrevious.col + " with cost " + bestState.cost + " from depth " + bestState.depth + "\n");
 		return bestState.moveFromPrevious;
 	}
 	
@@ -34,7 +34,6 @@ public class AI extends Agent {
 			currentState.cost = 0;
 			return currentState;
 		}
-		
 		// if at max depth, use heuristic evaluation
 		if (depth == maxDepth) {
 			currentState.cost =  this.heuristic(currentState);
@@ -44,14 +43,10 @@ public class AI extends Agent {
 			// otherwise, evaluate recursively
 			ArrayList<TicTacToeState> children = currentState.getSuccessorStates(isMaximizing ? this.symbol : (this.symbol == Symbol.X ? Symbol.O : Symbol.X));
 			
-			
-			// initialize beststate with either really low cost if we're maximizing and really high cost if we're minimizing
+			// initialize beststate
 			TicTacToeState bestState = new TicTacToeState();
-			
-			
-			
-			
-			// DEBUGE
+
+			// for display of each possible child state
 			ArrayList<TicTacToeState> costs = new ArrayList<TicTacToeState>();
 			
 			// for each successor
@@ -64,7 +59,7 @@ public class AI extends Agent {
 				// restore integrity of move, which changed from minimax call
 				childWithCost.moveFromPrevious = children.get(i).moveFromPrevious;
 				
-				costs.add(childWithCost);
+				costs.add(childWithCost);	// for display
 				
 				if (i == 0) {
 					bestState = childWithCost;
@@ -91,11 +86,11 @@ public class AI extends Agent {
 				}	
 			}
 			
+			// show child states from first layer
 			if (depth == 1) {
 				for (int i = 0; i < costs.size(); i++) {
 					System.out.println("Move: " + children.get(i).moveFromPrevious.row + ", " + children.get(i).moveFromPrevious.col + " Cost: " + costs.get(i).cost + " Depth: " + costs.get(i).depth);
 				}
-				System.out.println("CHOICE: " + bestState.moveFromPrevious.row + ", " + bestState.moveFromPrevious.col);
 			}
 			
 			return bestState;
