@@ -8,6 +8,7 @@ public class TicTacToeState extends TicTacToeGame {
 	public Symbol[][] boardState;				// array of symbols to represent state
 	public float cost; // for minimax			// cost of state (float for support with infinity)
 	public BoardPosition moveFromPrevious;		// board position of move that led to this state
+	public int depth;							// depth in the search space
 	
 	public TicTacToeState() {
 		
@@ -27,7 +28,7 @@ public class TicTacToeState extends TicTacToeGame {
 	
 	// log state to console
 	public void logState() {
-		System.out.println("\n");
+		System.out.println("\nDepth: " + this.depth);
 		for (int i = -1; i < this.boardState.length; i++) {
 			for (int j = 0; j < this.boardState.length; j++) {
 				if (i == -1) {

@@ -14,11 +14,13 @@ public class AI extends Agent {
 	}
 	
 	public BoardPosition getMove(TicTacToeState state, int dimension) {
-		TicTacToeState bestState = this.minimax(state, this.depth, true);
+		TicTacToeState bestState = this.minimax(state, true, 1, this.depth);
+		System.out.println("Selecting state with cost " + bestState.cost + " from depth " + bestState.depth);
+		bestState.logState();
 		return bestState.moveFromPrevious;
 	}
 	
-	public TicTacToeState minimax(TicTacToeState currentState, int depth, boolean isMaximizing) {
+	public TicTacToeState minimax(TicTacToeState currentState, boolean isMaximizing, int depth, int maxDepth) {
 		// if win, cost == positive infinity
 		if (currentState.isWinState(currentState.moveFromPrevious, this.symbol)) {
 			currentState.cost = Float.POSITIVE_INFINITY;
@@ -30,7 +32,7 @@ public class AI extends Agent {
 		}
 		
 		// if at max depth, use heuristic evaluation
-		if (depth == 0) {
+		if (depth == maxDepth) {
 			currentState.cost =  this.heuristic(currentState);
 			return currentState;
 		} else {
@@ -40,18 +42,31 @@ public class AI extends Agent {
 			
 			TicTacToeState bestState = children.get(0);
 			for (int i = 1; i < children.size(); i++) {
-				TicTacToeState childWithCost = this.minimax(children.get(i), depth - 1, !isMaximizing);
+				children.get(i).depth = depth;		// init child depth
 				
-				System.out.println("Child cost == " + childWithCost.cost);
-				System.out.println("child state: ");
-				childWithCost.logState();
+				// recursively get minimax value of this child
+				TicTacToeState childWithCost = this.minimax(children.get(i), !isMaximizing, depth + 1, maxDepth);
+				
+//				System.out.println("Child cost == " + childWithCost.cost);
+//				System.out.println("child state: ");
+//				childWithCost.logState();
 				
 				if (isMaximizing) {
+					// if better cost found, replace
 					if (childWithCost.cost > bestState.cost) {
+						bestState = childWithCost;
+					
+					// if both wins, choose one with shallower depth
+					} else if (childWithCost.cost == Float.POSITIVE_INFINITY && childWithCost.depth < bestState.depth) {
 						bestState = childWithCost;
 					}
 				} else {
+					// if better cost found, replace
 					if (childWithCost.cost < bestState.cost) {
+						bestState = childWithCost;
+						
+					// if both losses, choose one with deeper depth
+					} else if (childWithCost.cost == Float.NEGATIVE_INFINITY && childWithCost.depth > bestState.depth) {
 						bestState = childWithCost;
 					}
 				}	

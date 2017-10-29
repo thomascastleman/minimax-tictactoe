@@ -10,7 +10,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		Agent p1 = new Agent(Symbol.X, AgentType.HUMAN, 0);
-		Agent p2 = new Agent(Symbol.O, AgentType.AI, 50);
+		Agent p2 = new Agent(Symbol.O, AgentType.AI, 10);
 		TicTacToeGame game = new TicTacToeGame(3, p1, p2);
 		
 		game.initializeBoardState();
